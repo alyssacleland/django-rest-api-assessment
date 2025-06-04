@@ -1,0 +1,11 @@
+[
+  {
+    "model": "tunaapi.artist",
+    "pk": 1,
+    "fields": {
+      "name": "Billy Joel",
+      "age": 76,
+      "bio": "William Martin Joel is an American singer, songwriter, and pianist. Nicknamed the Piano Man after his signature 1973 song of the same name, Joel has had a successful career as a solo artist since the 1970s"
+    }
+  }
+]
