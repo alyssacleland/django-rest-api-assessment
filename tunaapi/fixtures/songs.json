@@ -1,0 +1,12 @@
+[
+  {
+    "model": "tunaapi.song",
+    "pk": 1,
+    "fields": {
+      "title": "Vienna",
+      "artist": 1,
+      "album": 1,
+      "length": 214
+    }
+  }
+]
