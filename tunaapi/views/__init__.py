@@ -1,3 +1,3 @@
-from .song import SongView
-from .genre import GenreView
-from .artist import ArtistView
+from .song import SongView, AllSongsSerializer
+from .genre import GenreView, AllGenresSerializer
+from .artist import ArtistView, AllArtistsSerializer
