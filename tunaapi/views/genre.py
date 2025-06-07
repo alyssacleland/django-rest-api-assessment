@@ -33,6 +33,14 @@ class GenreView(ViewSet):
         except Genre.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+    def create(self, request):
+        """ handle POST requests for gneres"""
+        genre = Genre.objects.create(
+            description=request.data["description"]
+        )
+        serializer = AllGenresSerializer(genre)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 class AllGenresSerializer(serializers.ModelSerializer):
     """JSON Serializer for genres"""

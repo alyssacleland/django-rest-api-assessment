@@ -33,6 +33,15 @@ class ArtistView(ViewSet):
         except Artist.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+    def create(self, request):
+        artist = Artist.objects.create(
+            name=request.data["name"],
+            age=request.data["age"],
+            bio=request.data["bio"]
+        )
+        serializer = AllArtistsSerializer(artist)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 class AllArtistsSerializer(serializers.ModelSerializer):
     """JSON Serializer for artists"""

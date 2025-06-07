@@ -3,7 +3,7 @@ from django.http import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
-from tunaapi.models import Song, Genre
+from tunaapi.models import Song, Genre, Artist
 from tunaapi.views.genre import AllGenresSerializer
 
 
@@ -23,12 +23,26 @@ class SongView(ViewSet):
     # TODO: within list method: this filter isn't required but i'm gonna do it for practice. FILTER SONGS BY ARTIST IF PROVIDED. see events view for help.
 
     def retrieve(self, request, pk):
+        """ handle get requests for a single song 
+        """
         try:
             song = Song.objects.get(pk=pk)
             serializer = SingleSongSerializer(song)
             return Response(serializer.data)
         except Song.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def create(self, request):
+        """ handle post requests """
+        artist = Artist.objects.get(pk=request.data["artist_id"])
+        song = Song.objects.create(
+            title=request.data["title"],
+            artist_id=artist.id,
+            album=request.data["album"],
+            length=request.data["length"]
+        )
+        serializer = AllSongsSerializer(song)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class AllSongsSerializer(serializers.ModelSerializer):
@@ -46,8 +60,8 @@ class SingleSongSerializer(serializers.ModelSerializer):
     genres = serializers.SerializerMethodField()
 
     def get_genres(self, obj):
-      # Apparently obj is the song being passed to the serializer behind the scenes instead of explicity passing it as an argument ahhh why
-      # also fx has to be named get_<field_name> for it to work. drf
+        # Apparently obj is the song being passed to the serializer behind the scenes instead of explicity passing it as an argument ahhh why
+        # also fx has to be named get_<field_name> for it to work. drf
         """Get the genres for the song"""
         # Return all Genre objects that are linked to the given song (obj) through SongGenre records where SongGenre.song matches obj and SongGenre.genre_id matches Genre.id via the foreign key relationship.
         genres = Genre.objects.filter(songgenre__song=obj)
