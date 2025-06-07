@@ -49,6 +49,12 @@ class GenreView(ViewSet):
         serializer = AllGenresSerializer(genre)
         return Response(serializer.data)
 
+    def destroy(self, request, pk):
+        """ handle delete requests for single genre"""
+        genre = Genre.objects.get(pk=pk)
+        genre.delete()
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
+
 
 class AllGenresSerializer(serializers.ModelSerializer):
     """JSON Serializer for genres"""

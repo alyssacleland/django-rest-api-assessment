@@ -59,6 +59,12 @@ class SongView(ViewSet):
         serializer = AllSongsSerializer(song)
         return Response(serializer.data)
 
+    def destroy(self, request, pk):
+        """handle delete single song requests"""
+        song = Song.objects.get(pk=pk)
+        song.delete()
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
+
 
 class AllSongsSerializer(serializers.ModelSerializer):
     """JSON Serializer for artists"""
