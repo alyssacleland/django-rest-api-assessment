@@ -44,6 +44,21 @@ class SongView(ViewSet):
         serializer = AllSongsSerializer(song)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    def update(self, request, pk):
+        """ handle put requests for songs"""
+
+        # artist = Artist.objects.get(pk=request.data["artist_id"])..... don't need this because ticket wants the id, not the obj
+        song = Song.objects.get(pk=pk)
+        song.title = request.data["title"]
+        # song.artist_id = artist.id
+        song.artist_id = request.data["artist_id"]
+        song.album = request.data["album"]
+        song.length = request.data["length"]
+
+        song.save()
+        serializer = AllSongsSerializer(song)
+        return Response(serializer.data)
+
 
 class AllSongsSerializer(serializers.ModelSerializer):
     """JSON Serializer for artists"""
