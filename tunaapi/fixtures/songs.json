@@ -5,7 +5,7 @@
     "fields": {
       "title": "Vienna",
       "artist": 1,
-      "album": 1,
+      "album": "The Stranger",
       "length": 214
     }
   }
